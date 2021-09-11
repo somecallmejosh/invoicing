@@ -1,14 +1,44 @@
 <template>
-  <div class="bg-gray-50 px-4 lg:px-0 min-h-screen">
-    <div class="bg-white rounded-lg p-12 max-w-screen-xl mx-auto space-y-6">
-      <div>
+  <div
+    class="bg-gray-50 px-4 lg:px-0 min-h-screen py-6 lg:py-12 relative pb-24 lg:pb-12"
+  >
+    <div
+      class="rounded-lg max-w-screen-xl mx-auto space-y-6 lg:space-y-12 w-full"
+    >
+      <div class="w-full max-w-screen-xl mx-auto">
         <nuxt-link
           to="/"
           class="bg-gray-900 text-white p-2 rounded-lg hover:bg-gray-700"
           >‹ Back</nuxt-link
         >
       </div>
-      <div class="flex justify-between space-x-6">
+      <div
+        class="flex justify-between space-x-6 bg-white p-6 lg:p-12 rounded-lg"
+      >
+        <div
+          class="flex items-center space-x-2 justify-between w-full lg:w-auto"
+        >
+          <p>Status</p>
+          <p
+            class="p-2 rounded-2xl font-medium flex items-center space-x-1 text-sm"
+            :class="statusClass(invoice.status)"
+          >
+            <span
+              aria-hidden="true"
+              class="bg-current h-2 w-2 rounded-full"
+            ></span>
+            <span class="capitalize">{{ invoice.status }}</span>
+          </p>
+        </div>
+        <div class="hidden lg:flex items-center space-x-4">
+          <button>Edit</button>
+          <button>Delete</button>
+          <button>Mark as Paid</button>
+        </div>
+      </div>
+      <div
+        class="flex justify-between space-x-6 bg-white p-6 lg:p-12 rounded-lg"
+      >
         <div>
           <h1>Invoice #: {{ invoice.id }}</h1>
           <p>{{ invoice.description }}</p>
@@ -33,49 +63,82 @@
           </p>
         </div>
       </div>
-      <div class="bg-gray-50 rounded-lg overflow-hidden">
-        <ul class="space-y-4 p-6 ">
-          <li class="grid gap-6 grid-cols-7 text-sm">
-            <p class="font-medium col-span-4">Item Name</p>
-            <p class="col-span-1 text-center">QTY.</p>
-            <p class="col-span-1 text-right">Price</p>
-            <p class="col-span-1 text-right">
-              Total
-            </p>
-          </li>
-          <li
-            v-for="item in invoice.lineItems"
-            :key="item.id"
-            class="grid gap-6 grid-cols-7"
-          >
-            <p class="font-bold col-span-4">{{ item.name }}</p>
-            <p class="col-span-1 text-center">{{ item.quantity }}</p>
-            <p class="col-span-1 text-right">${{ item.total.toFixed(2) }}</p>
-            <p class="col-span-1 text-right">${{ item.total.toFixed(2) }}</p>
-          </li>
-        </ul>
+      <div class="bg-white rounded-lg overflow-hidden">
+        <div class="p-4 lg:p-12">
+          <ul class="hidden lg:block lg:mb-4">
+            <li class="lg:grid lg:gap-6 lg:grid-cols-9 text-sm">
+              <p class=" col-span-4">Item Name</p>
+              <p class="col-span-1 text-center">QTY.</p>
+              <p class="col-span-2 text-right">Price</p>
+              <p class="col-span-2 text-right">
+                Total
+              </p>
+            </li>
+          </ul>
+          <ul class="space-y-6">
+            <li
+              v-for="item in invoice.lineItems"
+              :key="item.id"
+              class="grid gap-6 grid-cols-2 lg:grid-cols-9 items-center"
+            >
+              <div class="lg:col-span-4">
+                <p class="font-bold capitalize">{{ item.name }}</p>
+                <p class="lg:hidden text-sm">
+                  {{ item.quantity }} x ${{ item.price }}
+                </p>
+              </div>
+              <div class="hidden lg:block lg:col-span-1 text-center">
+                <p class="text-center">
+                  {{ item.quantity }}
+                </p>
+              </div>
+              <div class="lg:col-span-2 text-right hidden lg:block">
+                <p>${{ item.total.toFixed(2) }}</p>
+              </div>
+
+              <div class="lg:col-span-2 text-right">
+                <p>${{ item.total.toFixed(2) }}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
         <div
-          class="bg-gray-900 text-white flex justify-between items-center p-6"
+          class="bg-gray-900 text-white flex justify-between items-center p-4 lg:p-12"
         >
           <p class="text-sm">Amount Due</p>
           <p class="text-3xl font-bold">${{ invoiceTotal.toFixed(2) }}</p>
         </div>
       </div>
     </div>
+    <div
+      class="lg:hidden flex items-center space-x-4 bg-white p-4 fixed bottom-0 left-0 righ-0 w-full shadow"
+    >
+      <button>Edit</button>
+      <button>Delete</button>
+      <button>Mark as Paid</button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  async asyncData({ store }) {
-    await store.dispatch("getInvoices");
+  async asyncData({ $axios, params }) {
+    const invoice = await $axios.$get(`/invoices/${params.slug}.json`);
+    return { invoice };
   },
   computed: {
-    invoice() {
-      return this.$store.getters.getInvoice(this.$route.params.slug)[0];
-    },
     invoiceTotal() {
       return this.invoice.lineItems.reduce((n, { total }) => n + total, 0);
+    }
+  },
+  methods: {
+    // THIS IS A DUPLICATE METHOD FROM index.vue
+    statusClass(status) {
+      let classString = "";
+      if (status === "pending") {
+        classString = "bg-red-100 text-red-600";
+      }
+      return classString;
     }
   }
 };
