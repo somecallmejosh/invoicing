@@ -1,6 +1,7 @@
 <template>
   <div class="relative lg:flex bg-mj-lt-gray">
     <header
+      ref="header"
       class="z-20 bg-mj-purple-gray-5 flex text-white w-screen lg:w-28 lg:rounded-tr-3xl lg:rounded-br-3xl lg:flex-col overflow-hidden justify-between lg:h-screen fixed top-0 left-0"
     >
       <nuxt-link
@@ -51,7 +52,7 @@
     <main
       class="min-h-screen px-4 md:px-0 font-medium text-mj-purple-gray-4 relative z-10 lg:flex-grow "
     >
-      <div class=" pt-28 lg:pl-28 lg:pt-0">
+      <div class="pt-28 lg:pl-28 lg:pt-0">
         <Nuxt class="w-full max-w-3xl mx-auto py-8 md:py-24" />
       </div>
     </main>

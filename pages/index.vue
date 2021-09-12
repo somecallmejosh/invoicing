@@ -1,144 +1,172 @@
 <template>
-  <div class="space-y-6">
-    <div class="flex items-center justify-between space-x-4">
-      <div class="flex flex-col">
-        <h1 class="text-2xl font-bold">Invoices</h1>
-        <p class="text-xs">
-          <span class="hidden md:inline">There are</span>
-          {{ invoices.length }}
-          <span class="hidden md:inline">total</span> invoices
-        </p>
+  <div class="relative w-full">
+    <transition name="fade">
+      <div
+        v-if="sidePaneVisible"
+        class="bg-black fixed h-screen inset-0 overflow-y-scroll bg-opacity-40 transform transition-all"
+        :class="sidePaneVisible ? 'z-30' : 'z-10 '"
+      >
+        <div
+          v-clickout="{
+            exclude: ['togglePane'],
+            handler: 'toggleSidePanel'
+          }"
+          class="content fixed top-0 left-0 p-12 pt-36 lg:pl-36 lg:py-12 lg:pr-12 w-full lg:w-1/2 bg-white lg:rounded-tr-3xl lg:rounded-br-3xl h-screen z-50 transform transition-transform duration-150"
+        >
+          <p>This is the menu for new invoices</p>
+          <button @click="toggleSidePanel()">Back</button>
+        </div>
       </div>
-      <div class="flex items-center space-x-4">
-        <div class="relative">
-          <button
-            @click="showFilter = !showFilter"
-            class="flex items-center space-x-3"
-          >
-            <div class="relative">
-              <span class="text-xs font-bold">
-                Filter <span class="hidden md:inline">By Status</span>
+    </transition>
+    <div class="space-y-6">
+      <div class="flex items-center justify-between space-x-4 relative">
+        <div class="flex flex-col">
+          <h1 class="text-2xl font-bold">Invoices</h1>
+          <p class="text-xs">
+            <span class="hidden md:inline">There are</span>
+            {{ invoices.length }}
+            <span class="hidden md:inline">total</span> invoices
+          </p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <button
+              ref="toggleFilter"
+              @click="toggleFilterMenu()"
+              class="flex items-center space-x-3"
+            >
+              <div class="relative">
+                <span class="text-xs font-bold">
+                  Filter <span class="hidden md:inline">By Status</span>
+                </span>
+              </div>
+              <span class="text-mj-purple-1">
+                <svg
+                  class="w-4 h-4 fill-text-mj-purple-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
               </span>
-            </div>
-            <span class="text-mj-purple-1">
+            </button>
+            <transition name="slide-down">
+              <form
+                v-if="showFilter"
+                v-clickout="{
+                  exclude: ['toggleFilter'],
+                  handler: 'toggleFilterMenu'
+                }"
+                class="bg-white shadow-lg p-6 rounded-lg absolute top-8 left-1/2 transform -translate-x-1/2 w-48 text-xs font-bold space-y-2 z-10"
+              >
+                <div class="text-left space-x-2 flex items-center">
+                  <input type="checkbox" value="draft" id="draft" />
+                  <label for="draft" class="mt-1">Draft</label>
+                </div>
+                <div class="text-left space-x-2 flex items-center">
+                  <input type="checkbox" value="pending" id="pending" />
+                  <label for="pending" class="mt-1">Pending</label>
+                </div>
+                <div class="text-left space-x-2 flex items-center">
+                  <input type="checkbox" value="paid" id="paid" />
+                  <label for="paid" class="mt-1">Paid</label>
+                </div>
+              </form>
+            </transition>
+          </div>
+          <button
+            ref="togglePane"
+            @click="toggleSidePanel()"
+            class="bg-mj-purple-1 border-transparent hover:bg-mj-purple-2 transition-colors duration-150 p-2 pr-4 rounded-full flex items-center space-x-2 lg:space-x-4"
+          >
+            <span
+              class="inline-flex h-8 w-8 text-mj-purple-1 items-center justify-center rounded-full bg-white"
+            >
               <svg
-                class="w-4 h-4 fill-text-mj-purple-1"
+                class="w-4 h-4"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   fill-rule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                   clip-rule="evenodd"
                 ></path>
               </svg>
             </span>
+            <span class="text-white text-xs font-bold block mt-1"
+              >New <span class="hidden lg:inline">Invoice</span></span
+            >
           </button>
-          <form
-            v-if="showFilter"
-            action=""
-            class="bg-white shadow-lg p-6 rounded-lg absolute top-8 left-1/2 transform -translate-x-1/2 w-48 text-xs font-bold space-y-2"
-          >
-            <div class="text-left space-x-2 flex items-center">
-              <input type="checkbox" value="draft" id="draft" />
-              <label for="draft" class="mt-1">Draft</label>
-            </div>
-            <div class="text-left space-x-2 flex items-center">
-              <input type="checkbox" value="pending" id="pending" />
-              <label for="pending" class="mt-1">Pending</label>
-            </div>
-            <div class="text-left space-x-2 flex items-center">
-              <input type="checkbox" value="paid" id="paid" />
-              <label for="paid" class="mt-1">Paid</label>
-            </div>
-          </form>
         </div>
-        <button
-          class="bg-mj-purple-1 border-transparent hover:bg-mj-purple-2 transition-colors duration-150 p-2 pr-4 rounded-full flex items-center space-x-2 lg:space-x-4"
-        >
-          <span
-            class="inline-flex h-8 w-8 text-mj-purple-1 items-center justify-center rounded-full bg-white"
-          >
-            <svg
-              class="w-4 h-4"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </span>
-          <span class="text-white text-xs font-bold block mt-1"
-            >New <span class="hidden lg:inline">Invoice</span></span
-          >
-        </button>
       </div>
-    </div>
-    <ul class="space-y-4">
-      <li class="" v-for="invoice in invoices" :key="invoice.id">
-        <nuxt-link
-          :to="`/invoice/${invoice.id}`"
-          class="p-6 flex items-center justify-between md:space-x-6 bg-white rounded hover:bg-gray-100 transition-colors duration-200 shadow-sm"
-        >
-          <div
-            class="grid gap-1 md:gap-6 md:grid-cols-9 w-full md:items-center"
+      <ul class="space-y-4 relative">
+        <li class="" v-for="invoice in invoices" :key="invoice.id">
+          <nuxt-link
+            :to="`/invoice/${invoice.id}`"
+            class="p-6 flex items-center justify-between md:space-x-6 bg-white rounded hover:bg-gray-100 transition-colors duration-200 shadow-sm"
           >
-            <p class="font-bold md:col-span-1 text-xs md:order-1">
-              <span class="text-mj-purple-gray-3">#</span>{{ invoice.id }}
-            </p>
-            <p class="hidden md:block md:col-span-4 md:order-3 text-xs ">
-              {{ invoice.clientName }}
-            </p>
-            <p
-              class="text-mj-purple-gray-3 text-xs mt-6 md:mt-0 md:col-span-2 md:order-2"
+            <div
+              class="grid gap-1 md:gap-6 md:grid-cols-9 w-full md:items-center"
             >
-              Due {{ $moment(invoice.paymentDate).format("MMM D, YYYY") }}
-            </p>
-            <p class="font-bold md:col-span-2 md:text-right md:order-4">
-              ${{ invoice.total.toFixed(2) }}
-            </p>
-          </div>
-          <div class="md:flex md:items-center text-right">
-            <p
-              class="md:hidden md:col-span-4 text-xs text-right text-mj-purple-gray-2 truncate"
-            >
-              {{ invoice.clientName }}
-            </p>
-            <p
-              class="px-4 py-3 rounded font-bold inline-flex items-center space-x-2 text-xs bg-opacity-5 mt-6 md:mt-0"
-              :class="statusClass(invoice.status)"
-            >
-              <span
-                aria-hidden="true"
-                class="bg-current h-2 w-2 rounded-full"
-              ></span>
-              <span class="capitalize">{{ invoice.status }}</span>
-            </p>
-            <div class="hidden md:block text-mj-purple-gray-3 ml-2">
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+              <p class="font-bold md:col-span-1 text-xs md:order-1">
+                <span class="text-mj-purple-gray-3">#</span>{{ invoice.id }}
+              </p>
+              <p class="hidden md:block md:col-span-4 md:order-3 text-xs ">
+                {{ invoice.clientName }}
+              </p>
+              <p
+                class="text-mj-purple-gray-3 text-xs mt-6 md:mt-0 md:col-span-2 md:order-2"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="4"
-                  d="M9 5l7 7-7 7"
-                ></path>
-              </svg>
+                Due {{ $moment(invoice.paymentDate).format("MMM D, YYYY") }}
+              </p>
+              <p class="font-bold md:col-span-2 md:text-right md:order-4">
+                ${{ invoice.total.toFixed(2) }}
+              </p>
             </div>
-          </div>
-        </nuxt-link>
-      </li>
-    </ul>
+            <div class="md:flex md:items-center text-right">
+              <p
+                class="md:hidden md:col-span-4 text-xs text-right text-mj-purple-gray-2 truncate"
+              >
+                {{ invoice.clientName }}
+              </p>
+              <p
+                class="px-4 py-3 rounded font-bold inline-flex items-center space-x-2 text-xs bg-opacity-5 mt-6 md:mt-0"
+                :class="statusClass(invoice.status)"
+              >
+                <span
+                  aria-hidden="true"
+                  class="bg-current h-2 w-2 rounded-full"
+                ></span>
+                <span class="capitalize">{{ invoice.status }}</span>
+              </p>
+              <div class="hidden md:block text-mj-purple-gray-3 ml-2">
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="4"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </nuxt-link>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -150,7 +178,8 @@ export default {
   },
   data() {
     return {
-      showFilter: false
+      showFilter: false,
+      sidePaneVisible: false
     };
   },
   methods: {
@@ -160,7 +189,48 @@ export default {
         classString = "bg-mj-orange text-mj-orange";
       }
       return classString;
+    },
+    toggleFilterMenu() {
+      this.showFilter = !this.showFilter;
+    },
+    toggleSidePanel() {
+      this.sidePaneVisible = !this.sidePaneVisible;
+      const header = document.querySelector("header");
     }
   }
 };
 </script>
+<style scoped>
+.fade-enter-active {
+  transition: all 0.15s ease;
+}
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
+.fade-enter,
+.fade-leave-to {
+  @apply bg-opacity-25;
+}
+
+.fade-enter-active .content {
+  transition: all 0.15s ease;
+}
+.fade-leave-active .content {
+  transition: all 0.3s ease;
+}
+.fade-enter .content,
+.fade-leave-to .content {
+  @apply -translate-x-full;
+}
+
+.slide-down-enter-active {
+  @apply transition-all duration-150 origin-top;
+}
+.slide-down-leave-active {
+  @apply transition-all duration-300 origin-top;
+}
+.slide-down-enter,
+.slide-down-leave-to {
+  @apply scale-y-75 opacity-0;
+}
+</style>
