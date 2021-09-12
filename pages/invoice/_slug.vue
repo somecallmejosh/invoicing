@@ -1,10 +1,8 @@
 <template>
   <div
-    class="bg-gray-50 px-4 lg:px-0 min-h-screen py-6 lg:py-12 relative pb-24 lg:pb-12"
+    class="bg-mj-lt-gray px-4 lg:px-0 min-h-screen py-6 relative pb-24 lg:pb-12 font-medium"
   >
-    <div
-      class="rounded-lg max-w-screen-xl mx-auto space-y-6 lg:space-y-12 w-full"
-    >
+    <div class="rounded-lg max-w-3xl mx-auto space-y-6 w-full">
       <div class="w-full max-w-screen-xl mx-auto">
         <nuxt-link
           to="/"
@@ -13,14 +11,14 @@
         >
       </div>
       <div
-        class="flex justify-between space-x-6 bg-white p-6 lg:p-12 rounded-lg"
+        class="flex justify-between space-x-6 bg-white p-6 lg:p-12 rounded-lg shadow"
       >
         <div
           class="flex items-center space-x-2 justify-between w-full lg:w-auto"
         >
           <p>Status</p>
           <p
-            class="p-2 rounded-2xl font-medium flex items-center space-x-1 text-sm"
+            class="p-2 rounded flex items-center space-x-1 text-xs bg-opacity-5"
             :class="statusClass(invoice.status)"
           >
             <span
@@ -37,7 +35,7 @@
         </div>
       </div>
       <div
-        class="flex justify-between space-x-6 bg-white p-6 lg:p-12 rounded-lg"
+        class="flex justify-between space-x-6 bg-white p-6 lg:p-12 rounded-lg shadow"
       >
         <div>
           <h1>Invoice #: {{ invoice.id }}</h1>
@@ -63,7 +61,7 @@
           </p>
         </div>
       </div>
-      <div class="bg-white rounded-lg overflow-hidden">
+      <div class="bg-white rounded-lg overflow-hidden shadow">
         <div class="p-4 lg:p-12">
           <ul class="hidden lg:block lg:mb-4">
             <li class="lg:grid lg:gap-6 lg:grid-cols-9 text-sm">
@@ -136,7 +134,7 @@ export default {
     statusClass(status) {
       let classString = "";
       if (status === "pending") {
-        classString = "bg-red-100 text-red-600";
+        classString = "bg-mj-orange text-mj-orange";
       }
       return classString;
     }

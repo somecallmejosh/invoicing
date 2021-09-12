@@ -7,7 +7,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "invoicing-app",
+    title: "imjoice",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -36,13 +36,25 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
+    "nuxt-webfontloader",
     // https://go.nuxtjs.dev/pwa
-    "@nuxtjs/pwa"
+    "@nuxtjs/pwa",
+    "@nuxtjs/moment"
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseUrl: "https://jyr-invoice-api-prod.herokuapp.com"
+  },
+
+  moment: {
+    timezone: true
+  },
+
+  webfontloader: {
+    google: {
+      families: ["Spartan:500,700&display=swap"] // Loads Lato font with weights 400 and 700
+    }
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
