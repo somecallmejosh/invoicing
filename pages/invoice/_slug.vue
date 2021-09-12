@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="bg-mj-lt-gray px-4 lg:px-0 min-h-screen py-6 relative pb-24 lg:pb-12 font-medium"
-  >
+  <div>
     <div class="rounded-lg max-w-3xl mx-auto space-y-6 w-full">
       <div class="w-full max-w-screen-xl mx-auto">
         <nuxt-link

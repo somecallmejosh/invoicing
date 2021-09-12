@@ -9,6 +9,7 @@ module.exports = {
         "mj-purple-gray-2": "#888EB0",
         "mj-purple-gray-3": "#7E88C3",
         "mj-purple-gray-4": "#0C0E16",
+        "mj-purple-gray-5": "#373B53",
         "mj-purple-1": "#7C5DFA",
         "mj-purple-2": "#9277FF",
         "mj-purple-3": "#1E2139",
