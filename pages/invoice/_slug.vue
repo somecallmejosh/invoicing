@@ -28,7 +28,7 @@
         </div>
         <div class="hidden lg:flex items-center space-x-4">
           <button>Edit</button>
-          <button>Delete</button>
+          <button @click="deleteInvoice()">Delete</button>
           <button>Mark as Paid</button>
         </div>
       </div>
@@ -110,7 +110,7 @@
       class="lg:hidden flex items-center space-x-4 bg-white p-4 fixed bottom-0 left-0 righ-0 w-full shadow"
     >
       <button>Edit</button>
-      <button>Delete</button>
+      <button @click="deleteInvoice()">Delete</button>
       <button>Mark as Paid</button>
     </div>
   </div>
@@ -135,6 +135,17 @@ export default {
         classString = "bg-mj-orange text-mj-orange";
       }
       return classString;
+    },
+    deleteInvoice() {
+      alert(
+        `Are you sure you want to delete invoice # ${this.$route.params.slug}? This action can't be undone.`
+      );
+      const router = this.$router;
+      this.$axios
+        .$delete(`/invoices/${this.$route.params.slug}`)
+        .then(function(response) {
+          router.push("/");
+        });
     }
   }
 };
