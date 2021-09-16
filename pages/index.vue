@@ -3,7 +3,7 @@
     <transition name="fade">
       <div
         v-if="sidePaneVisible"
-        class="bg-black fixed h-screen inset-0 overflow-y-scroll bg-opacity-40 transform transition-all"
+        class="fixed inset-0 h-screen overflow-y-scroll transition-all transform bg-black bg-opacity-40"
         :class="sidePaneVisible ? 'z-30' : 'z-10 '"
       >
         <div
@@ -11,7 +11,7 @@
             exclude: ['togglePane'],
             handler: 'toggleSidePanel'
           }"
-          class="content fixed top-0 left-0 p-6 lg:p-12 pt-36 lg:pl-48 lg:py-12 lg:pr-24 w-full lg:max-w-4xl bg-white lg:rounded-tr-3xl lg:rounded-br-3xl h-screen z-50 transform transition-transform duration-150 space-y-12 overflow-y-scroll"
+          class="fixed top-0 left-0 z-50 w-full h-screen p-6 space-y-12 overflow-y-scroll transition-transform duration-150 transform bg-white content lg:p-12 pt-36 lg:pl-48 lg:py-12 lg:pr-24 lg:max-w-4xl lg:rounded-tr-3xl lg:rounded-br-3xl"
         >
           <h2 class="text-2xl font-bold">New Invoice</h2>
           <form @submit.prevent="submitInvoice()" class="space-y-10 text-sm">
@@ -23,17 +23,17 @@
                   type="text"
                   v-model="invoice.sender_address_attributes.street"
                   id="sender_address_attributes"
-                  class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                  class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
               </div>
-              <div class="grid lg:grid-cols-3 gap-6">
+              <div class="grid gap-6 lg:grid-cols-3">
                 <div class="form-group">
                   <label for="sender_address_attributes_city">City</label>
                   <input
                     type="text"
                     v-model="invoice.sender_address_attributes.city"
                     id="sender_address_attributes_city"
-                    class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                    class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
                 </div>
                 <div class="form-group">
@@ -44,7 +44,7 @@
                     type="text"
                     v-model="invoice.sender_address_attributes.post_code"
                     id="sender_address_attributes_post_code"
-                    class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                    class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
                 </div>
                 <div class="form-group">
@@ -53,7 +53,7 @@
                     type="text"
                     v-model="invoice.sender_address_attributes.country"
                     id="sender_address_attributes_country"
-                    class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                    class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
                 </div>
               </div>
@@ -67,7 +67,7 @@
                   type="email"
                   v-model="invoice.client_email"
                   id="client_email"
-                  class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                  class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
               </div>
               <div class="form-group">
@@ -76,7 +76,7 @@
                   type="text"
                   v-model="invoice.client_name"
                   id="client_name"
-                  class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                  class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
               </div>
 
@@ -86,7 +86,7 @@
                   type="text"
                   v-model="invoice.client_address_attributes.street"
                   id="lient_address_attributes_street"
-                  class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                  class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
               </div>
               <div class="grid grid-cols-3 gap-6">
@@ -96,7 +96,7 @@
                     type="text"
                     v-model="invoice.client_address_attributes.city"
                     id="lient_address_attributes_city"
-                    class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                    class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
                 </div>
                 <div class="form-group">
@@ -107,7 +107,7 @@
                     type="text"
                     v-model="invoice.client_address_attributes.post_code"
                     id="lient_address_attributes_post_code"
-                    class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                    class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
                 </div>
                 <div class="form-group">
@@ -116,7 +116,7 @@
                     type="text"
                     v-model="invoice.client_address_attributes.country"
                     id="lient_address_attributes_country"
-                    class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                    class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
                 </div>
               </div>
@@ -128,7 +128,7 @@
                     type="date"
                     v-model="invoice.payment_date"
                     id="payment_date"
-                    class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                    class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
                 </div>
 
@@ -138,7 +138,7 @@
                     type="text"
                     v-model="invoice.payment_terms"
                     id="payment_terms"
-                    class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                    class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
                 </div>
               </div>
@@ -148,26 +148,26 @@
                   type="text"
                   v-model="invoice.description"
                   id="description"
-                  class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                  class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
               </div>
             </div>
 
             <div class="space-y-6">
-              <h3 class="font-bold text-lg text-mj-purple-gray-4">Item List</h3>
+              <h3 class="text-lg font-bold text-mj-purple-gray-4">Item List</h3>
 
               <div class="space-y-3">
-                <div class="lg:grid-cols-9 lg:gap-6 hidden lg:grid">
-                  <div class="text-xs text-mj-purple-gray-3 col-span-3">
+                <div class="hidden lg:grid-cols-9 lg:gap-6 lg:grid">
+                  <div class="col-span-3 text-xs text-mj-purple-gray-3">
                     Item Name
                   </div>
-                  <div class="text-xs text-mj-purple-gray-3 col-span-1">
+                  <div class="col-span-1 text-xs text-mj-purple-gray-3">
                     Qty.
                   </div>
-                  <div class="text-xs text-mj-purple-gray-3 col-span-2">
+                  <div class="col-span-2 text-xs text-mj-purple-gray-3">
                     Price
                   </div>
-                  <div class="text-xs text-mj-purple-gray-3 col-span-3">
+                  <div class="col-span-3 text-xs text-mj-purple-gray-3">
                     Total
                   </div>
                 </div>
@@ -177,9 +177,9 @@
                   :key="index"
                 >
                   <div
-                    class="grid grid-cols-10 lg:grid-cols-9 gap-4 items-center"
+                    class="grid items-center grid-cols-10 gap-4 lg:grid-cols-9"
                   >
-                    <div class="form-group col-span-10 lg:col-span-3">
+                    <div class="col-span-10 form-group lg:col-span-3">
                       <label :for="`line_item_name_${index}`" class="lg:hidden"
                         >Item Name</label
                       >
@@ -188,10 +188,10 @@
                         type="text"
                         v-model="invoice.line_items_attributes[index].name"
                         :id="`line_item_name_${index}`"
-                        class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                        class="w-full bg-white rounded-md border-mj-purple-gray-1"
                       />
                     </div>
-                    <div class="form-group col-span-3 lg:col-span-1">
+                    <div class="col-span-3 form-group lg:col-span-1">
                       <label
                         :for="`line_item_quantity_${index}`"
                         class="lg:hidden"
@@ -202,10 +202,10 @@
                         type="number"
                         v-model="invoice.line_items_attributes[index].quantity"
                         :id="`line_item_quantity_${index}`"
-                        class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                        class="w-full bg-white rounded-md border-mj-purple-gray-1"
                       />
                     </div>
-                    <div class="form-group col-span-3 lg:col-span-2">
+                    <div class="col-span-3 form-group lg:col-span-2">
                       <label :for="`line_item_price_${index}`" class="lg:hidden"
                         >Price</label
                       >
@@ -216,15 +216,15 @@
                         step="0.01"
                         v-model="invoice.line_items_attributes[index].price"
                         :id="`line_item_price_${index}`"
-                        class="bg-white border-mj-purple-gray-1 rounded-md w-full"
+                        class="w-full bg-white rounded-md border-mj-purple-gray-1"
                       />
                     </div>
                     <div
-                      class="col-span-3 lg:col-span-2 text-xs"
+                      class="col-span-3 text-xs lg:col-span-2"
                       aria-label="Total"
                     >
                       <p class="lg:hidden label">Total</p>
-                      <p class="mt-2 lg:mt-0 font-bold">
+                      <p class="mt-2 font-bold lg:mt-0">
                         {{
                           (
                             invoice.line_items_attributes[index].price *
@@ -233,9 +233,9 @@
                         }}
                       </p>
                     </div>
-                    <div class="col-span-1 flex items-center">
+                    <div class="flex items-center col-span-1">
                       <button
-                        class="text-xs font-bold mt-3 lg:mt-0 text-mj-purple-gray-2"
+                        class="mt-3 text-xs font-bold lg:mt-0 text-mj-purple-gray-2"
                         aria-label="Delete item"
                         @click.prevent="deleteLineItem(index)"
                       >
@@ -256,7 +256,7 @@
                   </div>
                 </div>
                 <button
-                  class="bg-mj-lt-gray rounded-full w-full text-center py-4 px-4 text-mj-purple-gray-3 text-xs font-bold mt-2"
+                  class="w-full px-4 py-4 mt-2 text-xs font-bold text-center rounded-full bg-mj-lt-gray text-mj-purple-gray-3"
                   @click.prevent="addItem()"
                 >
                   + Add New Item
@@ -266,20 +266,20 @@
 
             <div class="flex items-center justify-between lg:justify-start">
               <button
-                class="py-4 px-4 lg:py-4 lg:px-6 bg-mj-lt-gray text-mj-purple-gray-3 rounded-full text-xs font-bold"
+                class="px-4 py-4 text-xs font-bold rounded-full lg:py-4 lg:px-6 bg-mj-lt-gray text-mj-purple-gray-3"
                 @click.prevent="toggleSidePanel()"
               >
                 Discard
               </button>
               <button
                 @click.prevent="saveDraft()"
-                class="py-4 px-4 lg:py-4 lg:px-6 bg-mj-purple-gray-5 text-mj-lt-gray rounded-full text-xs lg:ml-auto font-bold"
+                class="px-4 py-4 text-xs font-bold rounded-full lg:py-4 lg:px-6 bg-mj-purple-gray-5 text-mj-lt-gray lg:ml-auto"
               >
                 Save as Draft
               </button>
               <button
                 type="submit"
-                class="py-4 px-4 lg:py-4 lg:px-6 bg-mj-purple-1 text-white rounded-full text-xs lg:ml-4 font-bold"
+                class="px-4 py-4 text-xs font-bold text-white rounded-full lg:py-4 lg:px-6 bg-mj-purple-1 lg:ml-4"
               >
                 Save & Send
               </button>
@@ -289,7 +289,7 @@
       </div>
     </transition>
     <div class="space-y-6">
-      <div class="flex items-center justify-between space-x-4 relative">
+      <div class="relative flex items-center justify-between space-x-4">
         <div class="flex flex-col">
           <h1 class="text-2xl font-bold">Invoices</h1>
           <p class="text-xs">
@@ -332,29 +332,29 @@
                   exclude: ['toggleFilter'],
                   handler: 'toggleFilterMenu'
                 }"
-                class="bg-white shadow-lg p-6 rounded-lg absolute top-8 left-1/2 transform -translate-x-1/2 w-48 text-xs font-bold space-y-2 z-10"
+                class="absolute z-10 w-48 p-6 space-y-2 text-xs font-bold transform -translate-x-1/2 bg-white rounded-lg shadow-lg top-8 left-1/2"
               >
-                <div class="text-left space-x-2 flex items-center">
+                <div class="flex items-center space-x-2 text-left">
                   <input
-                    class="text-mj-purple-1 rounded"
+                    class="rounded text-mj-purple-1"
                     type="checkbox"
                     value="draft"
                     id="draft"
                   />
                   <label for="draft" class="mt-3">Draft</label>
                 </div>
-                <div class="text-left space-x-2 flex items-center">
+                <div class="flex items-center space-x-2 text-left">
                   <input
-                    class="text-mj-purple-1 rounded"
+                    class="rounded text-mj-purple-1"
                     type="checkbox"
                     value="pending"
                     id="pending"
                   />
                   <label for="pending" class="mt-3">Pending</label>
                 </div>
-                <div class="text-left space-x-2 flex items-center">
+                <div class="flex items-center space-x-2 text-left">
                   <input
-                    class="text-mj-purple-1 rounded"
+                    class="rounded text-mj-purple-1"
                     type="checkbox"
                     value="paid"
                     id="paid"
@@ -367,10 +367,10 @@
           <button
             ref="togglePane"
             @click="toggleSidePanel()"
-            class="bg-mj-purple-1 border-transparent hover:bg-mj-purple-2 transition-colors duration-150 p-2 pr-4 rounded-full flex items-center space-x-2 lg:space-x-4"
+            class="flex items-center p-2 pr-4 space-x-2 transition-colors duration-150 border-transparent rounded-full bg-mj-purple-1 hover:bg-mj-purple-2 lg:space-x-4"
           >
             <span
-              class="inline-flex h-8 w-8 text-mj-purple-1 items-center justify-center rounded-full bg-white"
+              class="inline-flex items-center justify-center w-8 h-8 bg-white rounded-full text-mj-purple-1"
             >
               <svg
                 class="w-4 h-4"
@@ -385,29 +385,29 @@
                 ></path>
               </svg>
             </span>
-            <span class="text-white text-xs font-bold block mt-1"
+            <span class="block mt-1 text-xs font-bold text-white"
               >New <span class="hidden lg:inline">Invoice</span></span
             >
           </button>
         </div>
       </div>
-      <ul class="space-y-4 relative">
+      <ul class="relative space-y-4">
         <li class="" v-for="invoice in invoices" :key="invoice.id">
           <nuxt-link
             :to="`/invoice/${invoice.id}`"
-            class="p-6 flex items-center justify-between md:space-x-6 bg-white rounded hover:bg-gray-100 transition-colors duration-200 shadow-sm"
+            class="flex items-center justify-between p-6 transition-colors duration-200 bg-white rounded shadow-sm md:space-x-6 hover:bg-gray-100"
           >
             <div
-              class="grid gap-1 md:gap-6 md:grid-cols-9 w-full md:items-center"
+              class="grid w-full gap-1 md:gap-6 md:grid-cols-9 md:items-center"
             >
-              <p class="font-bold md:col-span-1 text-xs md:order-1">
+              <p class="text-xs font-bold md:col-span-1 md:order-1">
                 <span class="text-mj-purple-gray-3">#</span>{{ invoice.id }}
               </p>
-              <p class="hidden md:block md:col-span-4 md:order-3 text-xs ">
-                {{ invoice.clientName }}
+              <p class="hidden text-xs md:block md:col-span-4 md:order-3 ">
+                {{ invoice.client_name }}
               </p>
               <p
-                class="text-mj-purple-gray-3 text-xs mt-6 md:mt-0 md:col-span-2 md:order-2"
+                class="mt-6 text-xs text-mj-purple-gray-3 md:mt-0 md:col-span-2 md:order-2"
               >
                 Due {{ $moment(invoice.paymentDate).format("MMM D, YYYY") }}
               </p>
@@ -415,23 +415,23 @@
                 ${{ invoice.total.toFixed(2) }}
               </p>
             </div>
-            <div class="md:flex md:items-center text-right">
+            <div class="text-right md:flex md:items-center">
               <p
-                class="md:hidden md:col-span-4 text-xs text-right text-mj-purple-gray-2 truncate"
+                class="text-xs text-right truncate md:hidden md:col-span-4 text-mj-purple-gray-2"
               >
                 {{ invoice.clientName }}
               </p>
               <p
-                class="px-4 py-3 rounded font-bold inline-flex items-center space-x-2 text-xs bg-opacity-5 mt-6 md:mt-0"
+                class="inline-flex items-center px-4 py-3 mt-6 space-x-2 text-xs font-bold rounded bg-opacity-5 md:mt-0"
                 :class="statusClass(invoice.status)"
               >
                 <span
                   aria-hidden="true"
-                  class="bg-current h-2 w-2 rounded-full"
+                  class="w-2 h-2 bg-current rounded-full"
                 ></span>
                 <span class="capitalize">{{ invoice.status }}</span>
               </p>
-              <div class="hidden md:block text-mj-purple-gray-3 ml-2">
+              <div class="hidden ml-2 md:block text-mj-purple-gray-3">
                 <svg
                   class="w-4 h-4"
                   fill="none"
