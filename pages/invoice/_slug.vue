@@ -233,12 +233,13 @@
                     </div>
                     <div class="flex items-center col-span-1">
                       <button
+                        type="button"
                         class="mt-3 text-xs font-bold lg:mt-0 text-mj-purple-gray-2"
                         aria-label="Delete item"
                         @click.prevent="deleteLineItem(index)"
                       >
                         <svg
-                          class="w-6 h-6"
+                          class="w-6 h-6 pointer-events-none"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                           xmlns="http://www.w3.org/2000/svg"
@@ -254,6 +255,7 @@
                   </div>
                 </div>
                 <button
+                  type="button"
                   class="w-full px-4 py-4 mt-2 text-xs font-bold text-center rounded-full bg-mj-lt-gray text-mj-purple-gray-3"
                   @click.prevent="addItem()"
                 >
@@ -264,6 +266,7 @@
 
             <div class="flex items-center justify-between lg:justify-start">
               <button
+                type="button"
                 class="px-4 py-4 text-xs font-bold rounded-full lg:py-4 lg:px-6 bg-mj-lt-gray text-mj-purple-gray-3"
                 @click.prevent="toggleSidePanel()"
               >
@@ -273,7 +276,7 @@
                 type="submit"
                 class="px-4 py-4 text-xs font-bold text-white rounded-full lg:py-4 lg:px-6 bg-mj-purple-1 lg:ml-4"
               >
-                Edit
+                Save Changes
               </button>
             </div>
           </form>
@@ -307,7 +310,7 @@
           >
             <p>Status</p>
             <p
-              class="flex items-center p-2 space-x-1 text-sm rounded bg-opacity-5"
+              class="flex items-center p-2 space-x-1 text-sm font-bold rounded bg-opacity-5"
               :class="statusClass(invoice.status)"
             >
               <span
@@ -319,6 +322,7 @@
           </div>
           <div class="items-center hidden space-x-4 lg:flex">
             <button
+              type="button"
               ref="togglePane"
               @click="toggleSidePanel()"
               class="flex items-center px-4 text-sm font-bold rounded-full rounded-ful lg:px-6 bg-mj-lt-gray text-mj-purple-gray-3 h-14"
@@ -326,12 +330,16 @@
               Edit
             </button>
             <button
+              type="button"
               @click="modalVisibility()"
               class="flex items-center px-4 text-sm font-bold text-white bg-red-500 rounded-full h-14 lg:px-6"
             >
               Delete
             </button>
             <button
+              v-if="invoice.status !== 'paid'"
+              @click="setAsPaid()"
+              type="button"
               class="flex items-center px-4 text-sm font-bold text-white rounded-full h-14 lg:px-6 bg-mj-purple-1"
             >
               Mark as Paid
@@ -478,18 +486,23 @@
       </div>
       <div class="flex items-center w-full p-4 space-x-4 lg:hidden">
         <button
+          type="button"
           @click="toggleSidePanel()"
           class="flex items-center px-4 text-sm font-bold rounded-full rounded-ful lg:px-6 bg-mj-lt-gray text-mj-purple-gray-3 h-14"
         >
           Edit
         </button>
         <button
+          type="button"
           @click="modalVisibility()"
           class="flex items-center px-4 text-sm font-bold text-white bg-red-500 rounded-full h-14 lg:px-6"
         >
           Delete
         </button>
         <button
+          v-if="invoice.status !== 'paid'"
+          @click="setAsPaid()"
+          type="button"
           class="flex items-center px-4 text-sm font-bold text-white rounded-full h-14 lg:px-6 bg-mj-purple-1"
         >
           Mark as Paid
@@ -555,6 +568,9 @@ export default {
       if (status === "pending") {
         classString = "bg-mj-orange text-mj-orange";
       }
+      if (status === "paid") {
+        classString = "bg-mj-green text-mj-green";
+      }
       return classString;
     },
     deleteInvoice() {
@@ -598,12 +614,26 @@ export default {
           thisScope.toggleSidePanel();
         });
     },
+    async setAsPaid() {
+      await this.$axios
+        .$patch(`invoices/${this.invoice.id}`, {
+          headers: {
+            "Content-Type": "application/json;charset=utf-8"
+          },
+          invoice: {
+            status: "paid"
+          }
+        })
+        .then(function(response) {
+          thisScope.$store.dispatch("getInvoices");
+        });
+    },
     saveDraft() {
       alert("Saving Draft, but not really...");
     }
   },
   mounted() {
-    this.invoiceUpdated = Object.assign({}, this.invoice);
+    this.invoiceUpdated = JSON.parse(JSON.stringify(this.invoice));
   }
 };
 </script>
@@ -651,5 +681,14 @@ export default {
 .modalui-enter .content,
 .modalui-leave-to .content {
   @apply -translate-y-12;
+}
+
+label,
+.label {
+  @apply block mb-2 text-xs text-mj-purple-gray-3;
+}
+
+input:not([type="checkbox"]):not([type="radio"]) {
+  @apply text-xs font-bold text-mj-dk-gray h-12 px-5;
 }
 </style>

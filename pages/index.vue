@@ -504,6 +504,9 @@ export default {
       if (status === "pending") {
         classString = "bg-mj-orange text-mj-orange";
       }
+      if (status === "paid") {
+        classString = "bg-mj-green text-mj-green";
+      }
       return classString;
     },
     toggleFilterMenu() {
