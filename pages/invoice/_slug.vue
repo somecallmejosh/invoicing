@@ -2,15 +2,12 @@
   <div class="relative w-full">
     <transition name="faded">
       <div
+        @click.self="toggleSidePanel()"
         v-if="sidePaneVisible"
         class="fixed inset-0 h-screen overflow-y-scroll transition-all transform bg-black bg-opacity-40"
         :class="sidePaneVisible ? 'z-30' : 'z-10 '"
       >
         <div
-          v-clickout="{
-            exclude: ['togglePane'],
-            handler: 'toggleSidePanel'
-          }"
           class="fixed top-0 left-0 z-50 w-full h-screen p-6 space-y-12 overflow-y-scroll transition-transform duration-150 transform bg-white content lg:p-12 pt-36 lg:pl-48 lg:py-12 lg:pr-24 lg:max-w-4xl lg:rounded-tr-3xl lg:rounded-br-3xl"
         >
           <h2 class="text-2xl font-bold">New Invoice</h2>
@@ -323,7 +320,6 @@
           <div class="items-center hidden space-x-4 lg:flex">
             <button
               type="button"
-              ref="togglePane"
               @click="toggleSidePanel()"
               class="flex items-center px-4 text-sm font-bold rounded-full rounded-ful lg:px-6 bg-mj-lt-gray text-mj-purple-gray-3 h-14"
             >
@@ -603,7 +599,7 @@ export default {
     async submitInvoice() {
       const thisScope = this;
       await this.$axios
-        .$patch(`invoices/${this.invoice.id}`, {
+        .$post(`invoices/${this.invoice.id}`, {
           headers: {
             "Content-Type": "application/json;charset=utf-8"
           },
@@ -616,7 +612,7 @@ export default {
     },
     async setAsPaid() {
       await this.$axios
-        .$patch(`invoices/${this.invoice.id}`, {
+        .$post(`invoices/${this.invoice.id}`, {
           headers: {
             "Content-Type": "application/json;charset=utf-8"
           },
