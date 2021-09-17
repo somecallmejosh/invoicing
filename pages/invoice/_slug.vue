@@ -18,7 +18,7 @@
                 <label for="sender_address_street">Street</label>
                 <input
                   type="text"
-                  v-model="invoiceUpdated.sender_address.street"
+                  v-model="invoiceUpdated.sender_address_attributes.street"
                   id="sender_address_street"
                   class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
@@ -28,7 +28,7 @@
                   <label for="sender_address_city">City</label>
                   <input
                     type="text"
-                    v-model="invoiceUpdated.sender_address.city"
+                    v-model="invoiceUpdated.sender_address_attributes.city"
                     id="sender_address_city"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -37,7 +37,7 @@
                   <label for="sender_address_post_code">Postal Code</label>
                   <input
                     type="text"
-                    v-model="invoiceUpdated.sender_address.post_code"
+                    v-model="invoiceUpdated.sender_address_attributes.post_code"
                     id="sender_address_post_code"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -46,7 +46,7 @@
                   <label for="sender_address_country">Country</label>
                   <input
                     type="text"
-                    v-model="invoiceUpdated.sender_address.country"
+                    v-model="invoiceUpdated.sender_address_attributes.country"
                     id="sender_address_country"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -79,7 +79,7 @@
                 <label for="lient_address_attributes_street">Street</label>
                 <input
                   type="text"
-                  v-model="invoiceUpdated.client_address.street"
+                  v-model="invoiceUpdated.client_address_attributes.street"
                   id="lient_address_attributes_street"
                   class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
@@ -89,7 +89,7 @@
                   <label for="lient_address_attributes_city">City</label>
                   <input
                     type="text"
-                    v-model="invoiceUpdated.client_address.city"
+                    v-model="invoiceUpdated.client_address_attributes.city"
                     id="lient_address_attributes_city"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -100,7 +100,7 @@
                   >
                   <input
                     type="text"
-                    v-model="invoiceUpdated.client_address.post_code"
+                    v-model="invoiceUpdated.client_address_attributes.post_code"
                     id="lient_address_attributes_post_code"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -109,7 +109,7 @@
                   <label for="lient_address_attributes_country">Country</label>
                   <input
                     type="text"
-                    v-model="invoiceUpdated.client_address.country"
+                    v-model="invoiceUpdated.client_address_attributes.country"
                     id="lient_address_attributes_country"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -168,7 +168,7 @@
                 </div>
                 <div
                   class="space-y-6"
-                  v-for="(item, index) in invoiceUpdated.line_items"
+                  v-for="(item, index) in invoiceUpdated.line_items_attributes"
                   :key="index"
                 >
                   <div
@@ -181,7 +181,9 @@
                       <input
                         aria-label="Item Name"
                         type="text"
-                        v-model="invoiceUpdated.line_items[index].name"
+                        v-model="
+                          invoiceUpdated.line_items_attributes[index].name
+                        "
                         :id="`line_item_name_${index}`"
                         class="w-full bg-white rounded-md border-mj-purple-gray-1"
                       />
@@ -195,7 +197,9 @@
                       <input
                         aria-label="Quanity"
                         type="number"
-                        v-model="invoiceUpdated.line_items[index].quantity"
+                        v-model="
+                          invoiceUpdated.line_items_attributes[index].quantity
+                        "
                         :id="`line_item_quantity_${index}`"
                         class="w-full bg-white rounded-md border-mj-purple-gray-1"
                       />
@@ -209,7 +213,9 @@
                         type="number"
                         min="0.01"
                         step="0.01"
-                        v-model="invoiceUpdated.line_items[index].price"
+                        v-model="
+                          invoiceUpdated.line_items_attributes[index].price
+                        "
                         :id="`line_item_price_${index}`"
                         class="w-full bg-white rounded-md border-mj-purple-gray-1"
                       />
@@ -222,8 +228,8 @@
                       <p class="mt-2 font-bold lg:mt-0">
                         {{
                           (
-                            invoiceUpdated.line_items[index].price *
-                            invoiceUpdated.line_items[index].quantity
+                            invoiceUpdated.line_items_attributes[index].price *
+                            invoiceUpdated.line_items_attributes[index].quantity
                           ).toFixed(2)
                         }}
                       </p>
@@ -359,21 +365,31 @@
             </div>
             <div class="text-sm lg:text-right text-mj-purple-gray-2">
               <p class="space-y-1 ">
-                <span v-if="invoice.sender_address.street" class="block">{{
-                  invoice.sender_address.street
-                }}</span>
-                <span v-if="invoice.sender_address.city" class="block">{{
-                  invoice.sender_address.city
-                }}</span>
-                <span v-if="invoice.sender_address.state" class="block">{{
-                  invoice.sender_address.state
-                }}</span>
-                <span v-if="invoice.sender_address.country" class="block">{{
-                  invoice.sender_address.country
-                }}</span>
-                <span v-if="invoice.sender_address.postalCode" class="block">{{
-                  invoice.sender_address.postalCode
-                }}</span>
+                <span
+                  v-if="invoice.sender_address_attributes.street"
+                  class="block"
+                  >{{ invoice.sender_address_attributes.street }}</span
+                >
+                <span
+                  v-if="invoice.sender_address_attributes.city"
+                  class="block"
+                  >{{ invoice.sender_address_attributes.city }}</span
+                >
+                <span
+                  v-if="invoice.sender_address_attributes.state"
+                  class="block"
+                  >{{ invoice.sender_address_attributes.state }}</span
+                >
+                <span
+                  v-if="invoice.sender_address_attributes.country"
+                  class="block"
+                  >{{ invoice.sender_address_attributes.country }}</span
+                >
+                <span
+                  v-if="invoice.sender_address_attributes.postalCode"
+                  class="block"
+                  >{{ invoice.sender_address_attributes.postalCode }}</span
+                >
               </p>
             </div>
           </div>
@@ -402,21 +418,31 @@
                 {{ invoice.client_name }}
               </p>
               <p class="space-y-1 text-sm text-mj-purple-gray-2">
-                <span v-if="invoice.client_address.street" class="block">{{
-                  invoice.client_address.street
-                }}</span>
-                <span v-if="invoice.client_address.city" class="block">{{
-                  invoice.client_address.city
-                }}</span>
-                <span v-if="invoice.client_address.state" class="block">{{
-                  invoice.client_address.state
-                }}</span>
-                <span v-if="invoice.client_address.country" class="block">{{
-                  invoice.client_address.country
-                }}</span>
-                <span v-if="invoice.client_address.postalCode" class="block">{{
-                  invoice.client_address.postalCode
-                }}</span>
+                <span
+                  v-if="invoice.client_address_attributes.street"
+                  class="block"
+                  >{{ invoice.client_address_attributes.street }}</span
+                >
+                <span
+                  v-if="invoice.client_address_attributes.city"
+                  class="block"
+                  >{{ invoice.client_address_attributes.city }}</span
+                >
+                <span
+                  v-if="invoice.client_address_attributes.state"
+                  class="block"
+                  >{{ invoice.client_address_attributes.state }}</span
+                >
+                <span
+                  v-if="invoice.client_address_attributes.country"
+                  class="block"
+                  >{{ invoice.client_address_attributes.country }}</span
+                >
+                <span
+                  v-if="invoice.client_address_attributes.postalCode"
+                  class="block"
+                  >{{ invoice.client_address_attributes.postalCode }}</span
+                >
               </p>
             </div>
             <div class="col-span-4 lg:col-span-3">
@@ -442,7 +468,7 @@
               </ul>
               <ul class="space-y-6">
                 <li
-                  v-for="item in invoice.line_items"
+                  v-for="item in invoice.line_items_attributes"
                   :key="item.id"
                   class="grid items-center grid-cols-2 gap-6 text-sm font-bold lg:grid-cols-9"
                 >
@@ -546,7 +572,10 @@ export default {
   },
   computed: {
     invoiceTotal() {
-      return this.invoice.line_items.reduce((n, { total }) => n + total, 0);
+      return this.invoice.line_items_attributes.reduce(
+        (n, { total }) => n + total,
+        0
+      );
     }
   },
   data() {
@@ -578,14 +607,14 @@ export default {
         });
     },
     addItem() {
-      this.invoiceUpdated.line_items.push({
+      this.invoiceUpdated.line_items_attributes.push({
         name: "",
         quantity: 0.0,
         price: 0.0
       });
     },
     deleteLineItem(index) {
-      this.invoiceUpdated.line_items.splice(index, 1);
+      this.invoiceUpdated.line_items_attributes.splice(index, 1);
     },
     toggleFilterMenu() {
       this.showFilter = !this.showFilter;
@@ -599,36 +628,35 @@ export default {
     async submitInvoice() {
       const thisScope = this;
       await this.$axios
-        .$post(`invoices/${this.invoice.id}`, {
+        .$post(`invoices/${this.invoice.id}.json`, {
           headers: {
-            "Content-Type": "application/json;charset=utf-8"
+            "Content-Type": "application/json"
           },
           ...thisScope.invoiceUpdated
         })
-        .then(function(response) {
-          thisScope.$store.dispatch("getInvoices");
+        .then(function() {
           thisScope.toggleSidePanel();
+        })
+        .then(function(error) {
+          console.log(error);
         });
     },
     async setAsPaid() {
-      await this.$axios
-        .$post(`invoices/${this.invoice.id}`, {
-          headers: {
-            "Content-Type": "application/json;charset=utf-8"
-          },
-          invoice: {
-            status: "paid"
-          }
-        })
-        .then(function(response) {
-          thisScope.$store.dispatch("getInvoices");
-        });
+      await this.$axios.$post(`invoices/${this.invoice.id}.json`, {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        invoice: {
+          status: "paid"
+        }
+      });
     },
     saveDraft() {
       alert("Saving Draft, but not really...");
     }
   },
   mounted() {
+    const newInvoice = this.invoice;
     this.invoiceUpdated = JSON.parse(JSON.stringify(this.invoice));
   }
 };
