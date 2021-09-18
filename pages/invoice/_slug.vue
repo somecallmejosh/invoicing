@@ -8,11 +8,11 @@
         :class="sidePaneVisible ? 'z-30' : 'z-10 '"
       >
         <div
-          class="fixed top-0 left-0 z-50 w-full h-screen p-6 space-y-12 overflow-y-scroll transition-transform duration-150 transform bg-white content lg:p-12 pt-36 lg:pl-48 lg:py-12 lg:pr-24 lg:max-w-4xl lg:rounded-tr-3xl lg:rounded-br-3xl"
+          class="fixed top-0 left-0 z-50 w-full h-screen p-6 space-y-12 overflow-y-scroll transition-transform duration-150 transform bg-white content lg:p-12 pt-36 lg:pl-36 lg:py-12 lg:pr-12 lg:max-w-4xl lg:rounded-tr-3xl lg:rounded-br-3xl"
         >
           <h2 class="text-2xl font-bold">New Invoice</h2>
           <form @submit.prevent="submitInvoice()" class="space-y-10 text-sm">
-            <div class="space-y-6">
+            <div class="space-y-6 default-form">
               <h3 class="font-bold text-mj-purple-1">Bill From</h3>
               <div class="form-group">
                 <label for="sender_address_street">Street</label>
@@ -54,7 +54,7 @@
               </div>
             </div>
 
-            <div class="space-y-6">
+            <div class="space-y-6 default-form">
               <h3 class="font-bold text-mj-purple-1">Bill To</h3>
               <div class="form-group">
                 <label for="client_name">Client's Email</label>
@@ -167,15 +167,17 @@
                   </div>
                 </div>
                 <div
-                  class="space-y-6"
                   v-for="(item, index) in invoiceUpdated.line_items_attributes"
                   :key="index"
                 >
                   <div
                     class="grid items-center grid-cols-10 gap-4 lg:grid-cols-9"
+                    :class="index > 0 ? 'mt-10 lg:mt-0' : ''"
                   >
                     <div class="col-span-10 form-group lg:col-span-3">
-                      <label :for="`line_item_name_${index}`" class="lg:hidden"
+                      <label
+                        :for="`line_item_name_${index}`"
+                        class="block mb-2 lg:hidden"
                         >Item Name</label
                       >
                       <input
@@ -185,13 +187,19 @@
                           invoiceUpdated.line_items_attributes[index].name
                         "
                         :id="`line_item_name_${index}`"
-                        class="w-full bg-white rounded-md border-mj-purple-gray-1"
+                        class="w-full rounded-md border-mj-purple-gray-1"
+                        :class="
+                          invoiceUpdated.line_items_attributes[index]
+                            ._destroy === 1
+                            ? 'line-through bg-mj-lt-gray'
+                            : 'bg-white '
+                        "
                       />
                     </div>
                     <div class="col-span-3 form-group lg:col-span-1">
                       <label
                         :for="`line_item_quantity_${index}`"
-                        class="lg:hidden"
+                        class="block mb-2 lg:hidden"
                         >Qty.</label
                       >
                       <input
@@ -201,11 +209,23 @@
                           invoiceUpdated.line_items_attributes[index].quantity
                         "
                         :id="`line_item_quantity_${index}`"
-                        class="w-full bg-white rounded-md border-mj-purple-gray-1"
+                        class="w-full rounded-md appearance-none border-mj-purple-gray-1"
+                        :class="
+                          invoiceUpdated.line_items_attributes[index]
+                            ._destroy === 1
+                            ? 'line-through bg-mj-lt-gray'
+                            : 'bg-white '
+                        "
+                        :disabled="
+                          invoiceUpdated.line_items_attributes[index]
+                            ._destroy === 1
+                        "
                       />
                     </div>
                     <div class="col-span-3 form-group lg:col-span-2">
-                      <label :for="`line_item_price_${index}`" class="lg:hidden"
+                      <label
+                        :for="`line_item_price_${index}`"
+                        class="block mb-2 lg:hidden"
                         >Price</label
                       >
                       <input
@@ -217,7 +237,17 @@
                           invoiceUpdated.line_items_attributes[index].price
                         "
                         :id="`line_item_price_${index}`"
-                        class="w-full bg-white rounded-md border-mj-purple-gray-1"
+                        class="w-full rounded-md appearance-none border-mj-purple-gray-1"
+                        :class="
+                          invoiceUpdated.line_items_attributes[index]
+                            ._destroy === 1
+                            ? 'line-through bg-mj-lt-gray'
+                            : 'bg-white '
+                        "
+                        :disabled="
+                          invoiceUpdated.line_items_attributes[index]
+                            ._destroy === 1
+                        "
                       />
                     </div>
                     <div
@@ -225,7 +255,15 @@
                       aria-label="Total"
                     >
                       <p class="lg:hidden label">Total</p>
-                      <p class="mt-2 font-bold lg:mt-0">
+                      <p
+                        class="flex items-center h-12 mt-2 font-bold lg:mt-0 "
+                        :class="
+                          invoiceUpdated.line_items_attributes[index]
+                            ._destroy === 1
+                            ? 'line-through'
+                            : ''
+                        "
+                      >
                         {{
                           (
                             invoiceUpdated.line_items_attributes[index].price *
@@ -236,6 +274,10 @@
                     </div>
                     <div class="flex items-center col-span-1">
                       <button
+                        v-if="
+                          invoiceUpdated.line_items_attributes[index]
+                            ._destroy != 1
+                        "
                         type="button"
                         class="mt-3 text-xs font-bold lg:mt-0 text-mj-purple-gray-2"
                         aria-label="Delete item"
@@ -254,16 +296,38 @@
                           ></path>
                         </svg>
                       </button>
+                      <button
+                        v-else
+                        type="button"
+                        class="mt-3 text-xs font-bold lg:mt-0 text-mj-purple-gray-2"
+                        aria-label="Reset item"
+                        @click.prevent="resetItem(index)"
+                      >
+                        <svg
+                          class="w-6 h-6 pointer-events-none"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  class="w-full px-4 py-4 mt-2 text-xs font-bold text-center rounded-full bg-mj-lt-gray text-mj-purple-gray-3"
-                  @click.prevent="addItem()"
-                >
-                  + Add New Item
-                </button>
+                <div class="pt-6">
+                  <button
+                    type="button"
+                    class="w-full px-4 py-4 text-xs font-bold text-center rounded-full bg-mj-lt-gray text-mj-purple-gray-3"
+                    @click.prevent="addItem()"
+                  >
+                    + Add New Item
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -614,7 +678,18 @@ export default {
       });
     },
     deleteLineItem(index) {
-      this.invoiceUpdated.line_items_attributes.splice(index, 1);
+      this.$set(
+        this.invoiceUpdated.line_items_attributes[index],
+        "_destroy",
+        1
+      );
+    },
+    resetItem(index) {
+      this.$set(
+        this.invoiceUpdated.line_items_attributes[index],
+        "_destroy",
+        0
+      );
     },
     toggleFilterMenu() {
       this.showFilter = !this.showFilter;
@@ -709,9 +784,13 @@ export default {
 
 label,
 .label {
-  @apply block mb-2 text-xs text-mj-purple-gray-3;
+  @apply mb-2 text-xs text-mj-purple-gray-3;
 }
 
+.default-form label,
+.default-form .label {
+  @apply block;
+}
 input:not([type="checkbox"]):not([type="radio"]) {
   @apply text-xs font-bold text-mj-dk-gray h-12 px-5;
 }
