@@ -18,7 +18,7 @@
                 <label for="sender_address_street">Street</label>
                 <input
                   type="text"
-                  v-model="invoiceUpdated.sender_address_attributes.street"
+                  v-model="invoice.sender_address_attributes.street"
                   id="sender_address_street"
                   class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
@@ -28,7 +28,7 @@
                   <label for="sender_address_city">City</label>
                   <input
                     type="text"
-                    v-model="invoiceUpdated.sender_address_attributes.city"
+                    v-model="invoice.sender_address_attributes.city"
                     id="sender_address_city"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -37,7 +37,7 @@
                   <label for="sender_address_post_code">Postal Code</label>
                   <input
                     type="text"
-                    v-model="invoiceUpdated.sender_address_attributes.post_code"
+                    v-model="invoice.sender_address_attributes.post_code"
                     id="sender_address_post_code"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -46,7 +46,7 @@
                   <label for="sender_address_country">Country</label>
                   <input
                     type="text"
-                    v-model="invoiceUpdated.sender_address_attributes.country"
+                    v-model="invoice.sender_address_attributes.country"
                     id="sender_address_country"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -60,7 +60,7 @@
                 <label for="client_name">Client's Email</label>
                 <input
                   type="email"
-                  v-model="invoiceUpdated.client_email"
+                  v-model="invoice.client_email"
                   id="client_email"
                   class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
@@ -69,7 +69,7 @@
                 <label for="client_name">Client's Name</label>
                 <input
                   type="text"
-                  v-model="invoiceUpdated.client_name"
+                  v-model="invoice.client_name"
                   id="client_name"
                   class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
@@ -79,7 +79,7 @@
                 <label for="lient_address_attributes_street">Street</label>
                 <input
                   type="text"
-                  v-model="invoiceUpdated.client_address_attributes.street"
+                  v-model="invoice.client_address_attributes.street"
                   id="lient_address_attributes_street"
                   class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
@@ -89,7 +89,7 @@
                   <label for="lient_address_attributes_city">City</label>
                   <input
                     type="text"
-                    v-model="invoiceUpdated.client_address_attributes.city"
+                    v-model="invoice.client_address_attributes.city"
                     id="lient_address_attributes_city"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -100,7 +100,7 @@
                   >
                   <input
                     type="text"
-                    v-model="invoiceUpdated.client_address_attributes.post_code"
+                    v-model="invoice.client_address_attributes.post_code"
                     id="lient_address_attributes_post_code"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -109,7 +109,7 @@
                   <label for="lient_address_attributes_country">Country</label>
                   <input
                     type="text"
-                    v-model="invoiceUpdated.client_address_attributes.country"
+                    v-model="invoice.client_address_attributes.country"
                     id="lient_address_attributes_country"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -121,7 +121,7 @@
                   <label for="payment_date">Invoice Date</label>
                   <input
                     type="date"
-                    v-model="invoiceUpdated.payment_date"
+                    v-model="invoice.payment_date"
                     id="payment_date"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -131,7 +131,7 @@
                   <label for="payment_terms">Payment Terms</label>
                   <input
                     type="text"
-                    v-model="invoiceUpdated.payment_terms"
+                    v-model="invoice.payment_terms"
                     id="payment_terms"
                     class="w-full bg-white rounded-md border-mj-purple-gray-1"
                   />
@@ -141,7 +141,7 @@
                 <label for="description">Project Description</label>
                 <input
                   type="text"
-                  v-model="invoiceUpdated.description"
+                  v-model="invoice.description"
                   id="description"
                   class="w-full bg-white rounded-md border-mj-purple-gray-1"
                 />
@@ -167,7 +167,7 @@
                   </div>
                 </div>
                 <div
-                  v-for="(item, index) in invoiceUpdated.line_items_attributes"
+                  v-for="(item, index) in invoice.line_items_attributes"
                   :key="index"
                 >
                   <div
@@ -183,14 +183,11 @@
                       <input
                         aria-label="Item Name"
                         type="text"
-                        v-model="
-                          invoiceUpdated.line_items_attributes[index].name
-                        "
+                        v-model="invoice.line_items_attributes[index].name"
                         :id="`line_item_name_${index}`"
                         class="w-full rounded-md border-mj-purple-gray-1"
                         :class="
-                          invoiceUpdated.line_items_attributes[index]
-                            ._destroy === 1
+                          invoice.line_items_attributes[index]._destroy === 1
                             ? 'line-through bg-mj-lt-gray'
                             : 'bg-white '
                         "
@@ -205,20 +202,16 @@
                       <input
                         aria-label="Quanity"
                         type="number"
-                        v-model="
-                          invoiceUpdated.line_items_attributes[index].quantity
-                        "
+                        v-model="invoice.line_items_attributes[index].quantity"
                         :id="`line_item_quantity_${index}`"
                         class="w-full rounded-md appearance-none border-mj-purple-gray-1"
                         :class="
-                          invoiceUpdated.line_items_attributes[index]
-                            ._destroy === 1
+                          invoice.line_items_attributes[index]._destroy === 1
                             ? 'line-through bg-mj-lt-gray'
                             : 'bg-white '
                         "
                         :disabled="
-                          invoiceUpdated.line_items_attributes[index]
-                            ._destroy === 1
+                          invoice.line_items_attributes[index]._destroy === 1
                         "
                       />
                     </div>
@@ -233,20 +226,16 @@
                         type="number"
                         min="0.01"
                         step="0.01"
-                        v-model="
-                          invoiceUpdated.line_items_attributes[index].price
-                        "
+                        v-model="invoice.line_items_attributes[index].price"
                         :id="`line_item_price_${index}`"
                         class="w-full rounded-md appearance-none border-mj-purple-gray-1"
                         :class="
-                          invoiceUpdated.line_items_attributes[index]
-                            ._destroy === 1
+                          invoice.line_items_attributes[index]._destroy === 1
                             ? 'line-through bg-mj-lt-gray'
                             : 'bg-white '
                         "
                         :disabled="
-                          invoiceUpdated.line_items_attributes[index]
-                            ._destroy === 1
+                          invoice.line_items_attributes[index]._destroy === 1
                         "
                       />
                     </div>
@@ -258,16 +247,15 @@
                       <p
                         class="flex items-center h-12 mt-2 font-bold lg:mt-0 "
                         :class="
-                          invoiceUpdated.line_items_attributes[index]
-                            ._destroy === 1
+                          invoice.line_items_attributes[index]._destroy === 1
                             ? 'line-through'
                             : ''
                         "
                       >
                         {{
                           (
-                            invoiceUpdated.line_items_attributes[index].price *
-                            invoiceUpdated.line_items_attributes[index].quantity
+                            invoice.line_items_attributes[index].price *
+                            invoice.line_items_attributes[index].quantity
                           ).toFixed(2)
                         }}
                       </p>
@@ -275,13 +263,16 @@
                     <div class="flex items-center col-span-1">
                       <button
                         v-if="
-                          invoiceUpdated.line_items_attributes[index]
-                            ._destroy != 1
+                          invoice.line_items_attributes[index]._destroy != 1
                         "
                         type="button"
                         class="mt-3 text-xs font-bold lg:mt-0 text-mj-purple-gray-2"
                         aria-label="Delete item"
-                        @click.prevent="deleteLineItem(index)"
+                        @click.prevent="
+                          deleteLineItem(
+                            invoice.line_items_attributes[index].id
+                          )
+                        "
                       >
                         <svg
                           class="w-6 h-6 pointer-events-none"
@@ -647,7 +638,7 @@ export default {
       modalVisible: false,
       showFilter: false,
       sidePaneVisible: false,
-      invoiceUpdated: {}
+      invoice: {}
     };
   },
   methods: {
@@ -671,25 +662,21 @@ export default {
         });
     },
     addItem() {
-      this.invoiceUpdated.line_items_attributes.push({
+      this.invoice.line_items_attributes.push({
         name: "",
         quantity: 0.0,
         price: 0.0
       });
     },
-    deleteLineItem(index) {
-      this.$set(
-        this.invoiceUpdated.line_items_attributes[index],
-        "_destroy",
-        1
-      );
+    deleteLineItem(id) {
+      let sign = prompt(`Are you sure you want to delete invoice number ${id}`);
+
+      if (sign === "Yes") {
+        this.$axios.$delete(`invoices/${this.invoice.id}/line_items/${id}`);
+      }
     },
     resetItem(index) {
-      this.$set(
-        this.invoiceUpdated.line_items_attributes[index],
-        "_destroy",
-        0
-      );
+      this.$set(this.invoice.line_items_attributes[index], "_destroy", 0);
     },
     toggleFilterMenu() {
       this.showFilter = !this.showFilter;
@@ -702,19 +689,59 @@ export default {
     },
     async submitInvoice() {
       const thisScope = this;
+      const invoice = JSON.parse(JSON.stringify(this.invoice));
+      const editListItems = invoice.line_items_attributes.filter(
+        item => item.id
+      );
+
+      const newListItems = invoice.line_items_attributes.filter(
+        item => !item.id
+      );
+
+      delete invoice.line_items_attributes;
+
+      editListItems.forEach(item => {
+        this.$axios({
+          method: "post",
+          url: `invoices/${thisScope.invoice.id}/line_items/${item.id}.json`,
+          headers: {
+            "Content-Type": "application/json"
+          },
+          data: {
+            line_item: item
+          }
+        }).then(function(error) {
+          console.log(error);
+        });
+      });
+
+      newListItems.forEach(item => {
+        this.$axios({
+          method: "post",
+          url: `/invoices/${thisScope.invoice.id}/line_items`,
+          headers: {
+            "Content-Type": "application/json"
+          },
+          data: {
+            line_item: item
+          }
+        }).then(function(error) {
+          console.log(error);
+        });
+      });
+
       await this.$axios
         .$post(`invoices/${this.invoice.id}.json`, {
           headers: {
             "Content-Type": "application/json"
           },
-          ...thisScope.invoiceUpdated
-        })
-        .then(function() {
-          thisScope.toggleSidePanel();
+          ...invoice
         })
         .then(function(error) {
           console.log(error);
         });
+
+      thisScope.toggleSidePanel();
     },
     async setAsPaid() {
       await this.$axios.$post(`invoices/${this.invoice.id}.json`, {
@@ -729,10 +756,6 @@ export default {
     saveDraft() {
       alert("Saving Draft, but not really...");
     }
-  },
-  mounted() {
-    const newInvoice = this.invoice;
-    this.invoiceUpdated = JSON.parse(JSON.stringify(this.invoice));
   }
 };
 </script>
